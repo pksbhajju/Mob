@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .subscribe-box {
+            background: white;
+            padding: 25px;
+            width: 350px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .subscribe-box img {
+            width: 50px;
+            margin-bottom: 10px;
+        }
+        .subscribe-box h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .subscribe-box p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .input-box {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .subscribe-btn {
+            width: 100%;
+            background: #3b82f6;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .subscribe-btn:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="subscribe-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/9068/9068642.png" alt="Notification Icon">
+        <h2>Stay Informed</h2>
+        <p>Get Notified About Next Update Direct to Your Inbox</p>
+        <input type="email" id="email" class="input-box" placeholder="Email Address" required>
+        <button class="subscribe-btn" onclick="submitForm()">SUBSCRIBE</button>
+    </div>
+
+    <script>
+        function validateEmail(email) {
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return emailPattern.test(email);
+        }
+
+        function submitForm() {
+            let email = document.getElementById("email").value.trim();
+            
+            if (email === "") {
+                alert("Please enter your email address.");
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                alert("Please enter a valid email address (e.g., user@example.com).");
+                return;
+            }
+
+            let googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSf5txumR-6FHrAY5vZ9qw_Nrs3gqqefLXfnYDA37f13eFasfg/formResponse";
+            let emailFieldID = "entry.567872889"; // Your Google Form Field ID
+
+            let formURL = googleFormURL + `?${emailFieldID}=${encodeURIComponent(email)}`;
+
+            fetch(formURL, {
+                method: "POST",
+                mode: "no-cors"
+            }).then(() => {
+                alert("Subscription successful! You'll receive updates in your inbox.");
+                document.getElementById("email").value = "";
+            }).catch(() => {
+                alert("There was an error. Please try again later.");
+            });
+        }
+    </script>
+
+</body>
+</html>
